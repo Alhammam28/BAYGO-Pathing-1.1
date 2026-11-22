@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 650" width="600" height="650">
+    <style>
+        .grid { stroke: #2e3d54; stroke-width: 1; }
+        .border { stroke: #38bdf8; stroke-width: 3; fill: none; }
+        .path-line { stroke: #38bdf8; stroke-width: 5; fill: none; stroke-linecap: round; }
+        .control-line { stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 6 6; }
+        .text { font-family: system-ui, sans-serif; font-size: 13px; fill: #ffffff; font-weight: bold; }
+        .muted-text { font-family: system-ui, sans-serif; font-size: 11px; fill: #94a3b8; }
+    </style>
+
+    <!-- Field Background -->
+    <rect width="600" height="600" fill="#0b0f19" />
+
+    <!-- Tile Grid Lines (6x6 FTC Field Tiles) -->
+    <g class="grid">
+        <line x1="100" y1="0" x2="100" y2="600" />
+        <line x1="200" y1="0" x2="200" y2="600" />
+        <line x1="300" y1="0" x2="300" y2="600" />
+        <line x1="400" y1="0" x2="400" y2="600" />
+        <line x1="500" y1="0" x2="500" y2="600" />
+
+        <line x1="0" y1="100" x2="600" y2="100" />
+        <line x1="0" y1="200" x2="600" y2="200" />
+        <line x1="0" y1="300" x2="600" y2="300" />
+        <line x1="0" y1="400" x2="600" y2="400" />
+        <line x1="0" y1="500" x2="600" y2="500" />
+    </g>
+
+    <!-- High Goal Zone (Red Target at top) -->
+    <circle cx="300" cy="75" r="26" fill="#ef4444" opacity="0.85" />
+    <circle cx="300" cy="75" r="12" fill="#ffffff" />
+    <text x="300" y="38" class="text" text-anchor="middle" fill="#ef4444">HIGH GOAL (X: 72", Y: 126")</text>
+
+    <!-- Control Lines -->
+    <path d="M 150 525 L 250 300 L 300 100" class="control-line" />
+
+    <!-- Bézier Curve Path -->
+    <path d="M 150 525 Q 250 300 300 100" class="path-line" />
+
+    <!-- Start Position (Robot Green Box) -->
+    <g transform="translate(150, 525)">
+        <rect x="-18" y="-18" width="36" height="36" fill="#22c55e" rx="4" />
+        <polygon points="0,-12 12,0 0,12" fill="#ffffff" />
+    </g>
+    <text x="150" y="565" class="text" text-anchor="middle">Start Pose</text>
+    <text x="150" y="582" class="muted-text" text-anchor="middle">(36", 18", 0°)</text>
+
+    <!-- Control Point Handle (Yellow Dot) -->
+    <circle cx="250" cy="300" r="8" fill="#eab308" />
+    <text x="270" y="304" class="text" fill="#eab308">Control Point (60", 72")</text>
+
+    <!-- Target Shooting Position (Robot Cyan Box) -->
+    <g transform="translate(300, 100)">
+        <rect x="-18" y="-18" width="36" height="36" fill="#38bdf8" rx="4" />
+        <polygon points="0,-12 12,0 0,12" fill="#000000" transform="rotate(-90)" />
+    </g>
+    <text x="375" y="100" class="text">Target Pose</text>
+    <text x="375" y="118" class="muted-text">(72", 126", 90°)</text>
+
+    <!-- Outer Boundary Border -->
+    <rect width="600" height="600" class="border" />
+
+    <!-- Legend Footer Bar -->
+    <rect y="600" width="600" height="50" fill="#151d30" />
+    <text x="20" y="630" class="text">Pedro Pathing 3.0 Trajectory - BIOBUZZ Field Grid (144" x 144")</text>
+</svg>

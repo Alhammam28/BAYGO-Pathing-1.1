@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BAYGO 1.1 - FTC Framework User Manual (PDF Printable)</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #1e293b;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .cover {
+            text-align: center;
+            padding: 60px 20px 40px;
+            border-bottom: 3px solid #0284c7;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 38px;
+            font-weight: 800;
+            color: #0284c7;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        h2 {
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+
+        h3 {
+            color: #0369a1;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        p, li {
+            font-size: 14px;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; }
+            .page-break { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="background: #0284c7; color: white; padding: 12px; text-align: center; font-weight: bold; cursor: pointer;" onclick="window.print()">
+        🖨️ CLICK HERE TO PRINT / SAVE AS PDF (Ctrl+P)
+    </div>
+
+    <div class="cover">
+        <div class="logo">⚡ BAYGO 1.1</div>
+        <div class="subtitle">FTC Autonomous & TeleOp Framework User Manual</div>
+        <div class="badge">BIOBUZZ (2026-2027) Edition</div>
+    </div>
+
+    <h2>1. Framework Architecture & File Map</h2>
+    <p>The <b>BAYGO 1.1</b> framework is structured cleanly under <code>org.firstinspires.ftc.teamcode.baygo</code>:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>Core Class</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>baygo.biobuzz</code></td>
+                <td><code>BaygoShooterKinematics</code></td>
+                <td>Calculates distance, turret yaw angle, and flywheel RPM based on ballistics.</td>
+            </tr>
+            <tr>
+                <td><code>baygo.biobuzz</code></td>
+                <td><code>BaygoTeleOpDriver</code></td>
+                <td>Auto-aiming to goal and coordinate snapping via customizable gamepad buttons.</td>
+            </tr>
+            <tr>
+                <td><code>baygo.biobuzz</code></td>
+                <td><code>BaygoWallAutoAlign</code></td>
+                <td>Zeros position against wall and drives a smooth Bézier departure curve.</td>
+            </tr>
+            <tr>
+                <td><code>baygo.biobuzz</code></td>
+                <td><code>BaygoPoseStorage</code></td>
+                <td>Preserves ending autonomous pose and transfers it seamlessly into TeleOp.</td>
+            </tr>
+            <tr>
+                <td><code>baygo.config</code></td>
+                <td><code>BaygoConfigManager</code></td>
+                <td>Instant JSON config persistence (<code>/sdcard/FIRST/baygo_config.json</code>).</td>
+            </tr>
+            <tr>
+                <td><code>baygo.config</code></td>
+                <td><code>BaygoVoltageCompensator</code></td>
+                <td>Real-time battery scaling from 14.4V down to 10.0V.</td>
+            </tr>
+            <tr>
+                <td><code>baygo.control</code></td>
+                <td><code>BaygoPIDFController</code></td>
+                <td>Low-Pass Filtered Derivative and Dynamic Anti-Windup PIDF engine.</td>
+            </tr>
+            <tr>
+                <td><code>baygo.control</code></td>
+                <td><code>BaygoMechanismPIDF</code></td>
+                <td>Rapid RPM recovery for shooter flywheels and gravity compensation for arms/lifts.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>2. TeleOp Implementation Example (Non-Blocking OpMode)</h2>
+    <p>BAYGO 1.1 uses standard event-driven <code>OpMode</code> for all TeleOp code:</p>
+
+<pre>
+package org.firstinspires.ftc.teamcode.baygo.biobuzz;
+
+import com.pedropathing.follower.Follower;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.teamcode.baygo.Constants;
+
+@TeleOp(name = "BAYGO: BIOBUZZ TeleOp Driver", group = "BAYGO")
+public class BaygoTeleOpExample extends OpMode {
+
+    private Follower follower;
+    private BaygoTeleOpDriver teleOpDriver;
+
+    @Override
+    public void init() {
+        follower = Constants.create(hardwareMap);
+
+        teleOpDriver = new BaygoTeleOpDriver(follower)
+                .setGoalPosition(72.0, 126.0)
+                .addPreset("shooting", 36.0, 48.0, 45.0)
+                .setSnapButton(BaygoTeleOpDriver.Button.X)
+                .setAutoAimButton(BaygoTeleOpDriver.Button.LEFT_TRIGGER);
+    }
+
+    @Override
+    public void loop() {
+        teleOpDriver.update(gamepad1);
+        telemetry.addData("Distance to Goal", teleOpDriver.getDistanceToGoal());
+    }
+
+    @Override
+    public void stop() {
+        if (follower != null) {
+            BaygoPoseStorage.saveAutoPose(follower.pose());
+        }
+    }
+}
+</pre>
+
+    <h2>3. Shooter Ballistics & Kinematics Formula</h2>
+    <p>The flywheel launch velocity ($v_0$) formula implemented in <code>BaygoShooterKinematics</code>:</p>
+
+    <pre>v0 = Math.sqrt((386.09 * d * d) / (2.0 * cos(pitch)^2 * (d * tan(pitch) - deltaZ)));</pre>
+
+    <div class="footer">
+        BAYGO 1.1 Framework Manual &copy; BIOBUZZ Season (2026-2027) | Licensed under BSD 3-Clause
+    </div>
+
+</body>
+</html>
