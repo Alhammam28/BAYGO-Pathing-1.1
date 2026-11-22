@@ -5,6 +5,7 @@ import com.pedropathing.math.Pose;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 public class BaygoPanelsManager {
 
     private static boolean isPanelsEnabled = true;

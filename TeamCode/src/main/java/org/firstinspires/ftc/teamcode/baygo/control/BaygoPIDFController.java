@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.baygo.control;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@SuppressWarnings("unused")
 public class BaygoPIDFController {
 
     private double kP;

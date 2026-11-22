@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.baygo.config.BaygoVoltageCompensator;
 import java.util.Locale;
 
 @TeleOp(name = "BAYGO: Step Tester", group = "BAYGO")
+@SuppressWarnings("unused")
 public class BaygoStepTester extends LinearOpMode {
 
     public static double targetDistanceInches = 24.0;
@@ -42,7 +43,7 @@ public class BaygoStepTester extends LinearOpMode {
         }
 
         telemetry.clearAll();
-        telemetry.addLine("=== BAYGO 3.0: Step Response Tester ===");
+        telemetry.addLine("=== BAYGO 1.1: Step Response Tester ===");
         telemetry.addLine("Controls:");
         telemetry.addLine(" [A] Forward 24\" Step");
         telemetry.addLine(" [B] Heading 90° Step");
@@ -120,8 +121,8 @@ public class BaygoStepTester extends LinearOpMode {
         telemetry.update();
 
         ElapsedTime timer = new ElapsedTime();
-        double maxPos = 0.0;
         double currentPos = 0.0;
+        double maxPosFound = 0.0;
         double settlingTime = -1.0;
 
         timer.reset();
@@ -129,7 +130,7 @@ public class BaygoStepTester extends LinearOpMode {
         while (opModeIsActive() && timer.seconds() < 3.0) {
             double time = timer.seconds();
             currentPos = targetDistanceInches * (1.0 - Math.exp(-4.0 * forwardTranslationalKP * 100 * time * voltageMultiplier) * Math.cos(5.0 * time));
-            maxPos = Math.max(maxPos, currentPos);
+            maxPosFound = Math.max(maxPosFound, currentPos);
 
             double error = Math.abs(targetDistanceInches - currentPos);
             if (error <= settlingThresholdInches && settlingTime < 0) {
@@ -138,7 +139,7 @@ public class BaygoStepTester extends LinearOpMode {
         }
 
         lastSettlingTimeMs = (settlingTime > 0) ? settlingTime : 3000.0;
-        double overshoot = Math.max(0.0, maxPos - targetDistanceInches);
+        double overshoot = Math.max(0.0, maxPosFound - targetDistanceInches);
         lastOvershootPercent = (overshoot / targetDistanceInches) * 100.0;
         lastSteadyStateError = Math.abs(targetDistanceInches - currentPos);
     }
@@ -149,8 +150,8 @@ public class BaygoStepTester extends LinearOpMode {
         telemetry.update();
 
         ElapsedTime timer = new ElapsedTime();
-        double maxHeading = 0.0;
         double currentHeading = 0.0;
+        double maxHeadingFound = 0.0;
         double settlingTime = -1.0;
 
         timer.reset();
@@ -158,7 +159,7 @@ public class BaygoStepTester extends LinearOpMode {
         while (opModeIsActive() && timer.seconds() < 2.5) {
             double time = timer.seconds();
             currentHeading = targetHeadingDegrees * (1.0 - Math.exp(-2.0 * headingKP * time * voltageMultiplier) * Math.cos(4.0 * time));
-            maxHeading = Math.max(maxHeading, currentHeading);
+            maxHeadingFound = Math.max(maxHeadingFound, currentHeading);
 
             double error = Math.abs(targetHeadingDegrees - currentHeading);
             if (error <= settlingThresholdDegrees && settlingTime < 0) {
@@ -167,7 +168,7 @@ public class BaygoStepTester extends LinearOpMode {
         }
 
         lastSettlingTimeMs = (settlingTime > 0) ? settlingTime : 2500.0;
-        double overshoot = Math.max(0.0, maxHeading - targetHeadingDegrees);
+        double overshoot = Math.max(0.0, maxHeadingFound - targetHeadingDegrees);
         lastOvershootPercent = (overshoot / targetHeadingDegrees) * 100.0;
         lastSteadyStateError = Math.abs(targetHeadingDegrees - currentHeading);
     }

@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.baygo.config.BaygoVoltageCompensator;
 /**
  * BAYGO Framework Constants & Configuration Factory.
  */
+@SuppressWarnings("unused")
 public class Constants {
 
     public static Follower create(HardwareMap hardwareMap) {

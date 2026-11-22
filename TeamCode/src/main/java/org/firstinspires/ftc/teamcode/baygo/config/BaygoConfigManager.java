@@ -10,8 +10,9 @@ import java.io.FileWriter;
 
 /**
  * BAYGO Configuration Manager.
- * JSON persistence engine saving parameters to Control Hub (/sdcard/FIRST/baygo_config.json).
+ * Dynamic JSON persistence engine saving parameters to Control Hub (/sdcard/FIRST/baygo_config.json).
  */
+@SuppressWarnings("unused")
 public class BaygoConfigManager {
     private static final String TAG = "BaygoConfigManager";
     public static final String FILE_PATH = Environment.getExternalStorageDirectory().getPath() + "/FIRST/baygo_config.json";
@@ -98,7 +99,9 @@ public class BaygoConfigManager {
             File file = new File(FILE_PATH);
             File parent = file.getParentFile();
             if (parent != null && !parent.exists()) {
-                parent.mkdirs();
+                if (!parent.mkdirs()) {
+                    Log.w(TAG, "Failed to create directory structure");
+                }
             }
 
             try (FileWriter writer = new FileWriter(file)) {
@@ -120,9 +123,9 @@ public class BaygoConfigManager {
             StringBuilder sb = new StringBuilder();
             try (FileReader reader = new FileReader(file)) {
                 char[] buf = new char[1024];
-                int read;
-                while ((read = reader.read(buf)) != -1) {
-                    sb.append(buf, 0, read);
+                int charsRead;
+                while ((charsRead = reader.read(buf)) != -1) {
+                    sb.append(buf, 0, charsRead);
                 }
             }
 
