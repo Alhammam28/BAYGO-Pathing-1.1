@@ -8,8 +8,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
+/**
+ * BAYGO TeleOp Driver Assistant.
+ * Provides target locking, coordinate snapping, and auto-aim heading correction.
+ */
+@SuppressWarnings("unused")
 public class BaygoTeleOpDriver {
 
     public enum Button {
@@ -19,18 +23,22 @@ public class BaygoTeleOpDriver {
         DPAD_UP, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT
     }
 
+    public interface ButtonCondition {
+        boolean isPressed(Gamepad gamepad);
+    }
+
     private final Follower follower;
     private final Map<String, Pose> presets = new HashMap<>();
 
-    private Function<Gamepad, Boolean> snapCondition = gamepad -> gamepad.x;
-    private Function<Gamepad, Boolean> autoAimCondition = gamepad -> gamepad.y;
+    private ButtonCondition snapCondition = gamepad -> gamepad != null && gamepad.x;
+    private ButtonCondition autoAimCondition = gamepad -> gamepad != null && gamepad.y;
 
     private boolean isPoseLocked = false;
     private boolean isAutoAiming = false;
     private boolean prevSnapPressed = false;
     private boolean prevAutoAimPressed = false;
 
-    private Pose goalPosition = new Pose(72.0, 126.0, 0.0);
+    private Pose targetGoalPosition = new Pose(72.0, 126.0, 0.0);
 
     public BaygoTeleOpDriver(Follower follower) {
         this.follower = follower;
@@ -40,7 +48,7 @@ public class BaygoTeleOpDriver {
     }
 
     public BaygoTeleOpDriver setGoalPosition(double x, double y) {
-        this.goalPosition = new Pose(x, y, 0.0);
+        this.targetGoalPosition = new Pose(x, y, 0.0);
         return this;
     }
 
@@ -59,26 +67,28 @@ public class BaygoTeleOpDriver {
         return this;
     }
 
-    public BaygoTeleOpDriver setSnapCondition(Function<Gamepad, Boolean> condition) {
+    public BaygoTeleOpDriver setSnapCondition(ButtonCondition condition) {
         this.snapCondition = condition;
         return this;
     }
 
-    public BaygoTeleOpDriver setAutoAimCondition(Function<Gamepad, Boolean> condition) {
+    public BaygoTeleOpDriver setAutoAimCondition(ButtonCondition condition) {
         this.autoAimCondition = condition;
         return this;
     }
 
     public void update(Gamepad gamepad) {
+        if (follower == null || gamepad == null) return;
+
         Pose currentPose = follower.pose();
 
-        boolean snapPressed = snapCondition != null && snapCondition.apply(gamepad);
-        boolean autoAimPressed = autoAimCondition != null && autoAimCondition.apply(gamepad);
+        boolean snapPressed = snapCondition != null && snapCondition.isPressed(gamepad);
+        boolean autoAimPressed = autoAimCondition != null && autoAimCondition.isPressed(gamepad);
 
         if (snapPressed && !prevSnapPressed) {
             isPoseLocked = !isPoseLocked;
             if (isPoseLocked) {
-                Pose lockPose = presets.getOrDefault("shooting", currentPose);
+                Pose lockPose = presets.containsKey("shooting") ? presets.get("shooting") : currentPose;
                 follower.hold(lockPose);
             }
         }
@@ -131,15 +141,17 @@ public class BaygoTeleOpDriver {
     }
 
     public double getDistanceToGoal() {
+        if (follower == null) return 0.0;
         Pose p = follower.pose();
-        double dx = goalPosition.x() - p.x();
-        double dy = goalPosition.y() - p.y();
+        double dx = targetGoalPosition.x() - p.x();
+        double dy = targetGoalPosition.y() - p.y();
         return Math.hypot(dx, dy);
     }
 
     public double getHeadingToGoal(Pose currentPose) {
-        double dx = goalPosition.x() - currentPose.x();
-        double dy = goalPosition.y() - currentPose.y();
+        if (currentPose == null) return 0.0;
+        double dx = targetGoalPosition.x() - currentPose.x();
+        double dy = targetGoalPosition.y() - currentPose.y();
         return Math.atan2(dy, dx);
     }
 

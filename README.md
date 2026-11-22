@@ -1,40 +1,38 @@
-# ⚡ BAYGO 1.1 - Complete FTC Framework
+# BAYGO 1.1 - FTC Autonomous & TeleOp Framework
 
-[![FTC SDK Version](https://img.shields.io/badge/FTC%20SDK-v12.0.0-blue.svg)](https://github.com/FIRST-Tech-Challenge/FTCRobotController)
-[![Season](https://img.shields.io/badge/Season-BIOBUZZ%202026--2027-orange.svg)]()
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-green.svg)](LICENSE)
-
-**BAYGO 1.1** is a self-contained, high-performance FTC robotics framework built specifically for the **BIOBUZZ (2026-2027)** season. It combines non-blocking `OpMode` architecture, real-time battery voltage compensation, ballistics kinematics, auto-aim driver assistance, wall departure curves, and dynamic JSON persistence.
+Welcome to the official repository for **BAYGO 1.1** integrated with the FIRST Tech Challenge (FTC) SDK for the BIOBUZZ (2026-2027) competition season.
 
 ---
 
-## 🚀 Key Framework Features
+## Overview
 
-* **⚡ Non-Blocking OpMode Architecture:** Event-driven control loop design (`init()`, `init_loop()`, `loop()`, `stop()`).
-* **🎯 BIOBUZZ Shooter Kinematics (`BaygoShooterKinematics`):** Real-time horizontal distance, turret yaw, and flywheel RPM calculation based on projectile ballistics.
-* **🎮 TeleOp Auto-Pilot (`BaygoTeleOpDriver`):** Target goal auto-aiming and coordinate snapping bound to customizable gamepad buttons.
-* **⚡ Real-Time Battery Compensation (`BaygoVoltageCompensator`):** Automatic voltage scaling across peak (14.4V) and depleted (10.0V) battery levels.
-* **📁 Dynamic Persistence (`BaygoConfigManager`):** Instant load/save parameters without re-compiling (`/sdcard/FIRST/baygo_config.json`).
-* **🧱 Wall Departure Curve (`BaygoWallAutoAlign`):** Zeros localizer against field wall corners and drives a curved Bézier departure arc to eliminate human placement error.
-* **🔄 Seamless Match Transition (`BaygoPoseStorage`):** Preserves ending autonomous pose and transfers it automatically into TeleOp.
-* **🎛️ Advanced Mechanism PIDF (`BaygoMechanismPIDF`):** Rapid RPM recovery boost for shooter flywheels and gravity compensation for rotational arms and linear lifts.
-* **📊 Panels Integration Bridge (`BaygoPanelsManager`):** Built-in bridge connecting live field overlays and telemetries to web dashboards.
+**BAYGO 1.1** is an advanced, high-performance autonomous and TeleOp framework for FTC robotics. It combines path following, real-time battery voltage compensation, event triggers, auto-aim shooting kinematics, and seamless auto-to-teleop pose inheritance into a modular architecture.
+
+### Core Architecture & Features
+
+* **Non-Blocking OpMode Architecture:** Event-driven control loop design (`init()`, `loop()`, `stop()`).
+* **Auto-Aim Shooting Kinematics (`BaygoShooterKinematics`):** Real-time ballistics, turret yaw, and flywheel RPM calculation.
+* **TeleOp Auto-Pilot (`BaygoTeleOpDriver`):** Gamepad-driven target locking and coordinate snapping.
+* **Battery Voltage Scaling (`BaygoVoltageCompensator`):** Automatic voltage scaling across peak (14.4V) and depleted battery levels.
+* **Dynamic JSON Persistence (`BaygoConfigManager`):** Instant load/save parameters without re-compiling (`/sdcard/FIRST/baygo_config.json`).
+* **Wall Departure Arc (`BaygoWallAutoAlign`):** Smooth Bézier departure curve from field walls to eliminate placement error.
+* **Auto-to-TeleOp Pose Transfer (`BaygoPoseStorage`):** Preserves field-centric orientation across match transitions.
 
 ---
 
-## 📂 Repository Layout
+## Project Structure
 
 ```
 TeamCode/
 └── src/main/java/org/firstinspires/ftc/teamcode/baygo/
-    ├── Constants.java                       # Initialization Factory
+    ├── Constants.java                       # Framework Initialization Factory
     ├── Tuning.java                          # Global Tuning Definitions
     │
     ├── biobuzz/                             # Competition Season Modules
-    │   ├── BaygoShooterKinematics.java      # Kinematics & Flywheel RPM Calculator
+    │   ├── BaygoShooterKinematics.java      # Shooter Kinematics & Flywheel RPM Calculator
     │   ├── BaygoTeleOpDriver.java           # Auto-Aim & Pose Snap Driver Assistant
     │   ├── BaygoAutoManager.java            # Driver Station Strategy & Delay Selector
-    │   ├── BaygoWallAutoAlign.java          # Wall Corner Zeroing & Departure Arc
+    │   ├── BaygoWallAutoAlign.java          # Wall Corner Zeroing & Departure Curve
     │   ├── BaygoPoseStorage.java            # Auto-to-TeleOp Pose Inheritance
     │   ├── BaygoActionTrigger.java          # Mid-Path Event Action Hooks
     │   ├── BaygoSafetyMonitor.java          # Stall Protection & Anti-Collision System
