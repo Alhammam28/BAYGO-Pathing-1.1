@@ -23,5 +23,8 @@ out/
 *.jks
 *.keystore
 
+# Deprecated legacy directories
+TeamCode/src/main/java/org/firstinspires/ftc/teamcode/pedro/
+
 # Logcat logs
 *.log
